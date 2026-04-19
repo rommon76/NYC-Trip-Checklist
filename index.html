@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NYC Trip Checklist — 4–19 May 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400;1,700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --cream: #F4FAF6;
+    --card: #FAFDF8;
+    --ink: #1C2E24;
+    --rust: #6B35C4;
+    --rust-deep: #521EA8;
+    --gold: #4A8C62;
+    --gold-light: rgba(107,53,196,0.08);
+    --gold-soft: rgba(107,53,196,0.2);
+    --rust-soft: rgba(107,53,196,0.07);
+    --sage: #4A8C62;
+    --sage-deep: #2C4A38;
+    --sage-pale: #DCF0E4;
+    --sage-mint: #9BE0B4;
+    --sage-soft: rgba(74,140,98,0.1);
+    --slate: #5A7266;
+    --border: #D8EDE0;
+    --white: #FFF;
+    --shadow: 0 2px 14px rgba(28,46,36,0.07);
+    --shadow-lg: 0 8px 28px rgba(28,46,36,0.09);
+    --r: 12px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100vh;
+  }
+
+  .wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 0 80px;
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--sage-pale);
+    color: var(--ink);
+    padding: 2.25rem 1.5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-eye {
+    position: relative;
+    z-index: 1;
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+  }
+  .hero h1 {
+    position: relative;
+    z-index: 1;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(1.9rem, 6vw, 2.8rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .hero h1 em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--rust);
+  }
+  .hero-sub {
+    position: relative;
+    z-index: 1;
+    font-size: 0.78rem;
+    color: rgba(28,46,36,0.55);
+    margin-top: 0.5rem;
+    letter-spacing: 0.02em;
+  }
+  .hero-flights {
+    position: relative;
+    z-index: 1;
+    display: inline-flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    margin-top: 1.1rem;
+    background: rgba(107,53,196,0.1);
+    border: 1px solid rgba(107,53,196,0.25);
+    color: var(--rust-deep);
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 0.55rem 1.1rem;
+    border-radius: 100px;
+    letter-spacing: 0.04em;
+  }
+
+  /* STICKY PROGRESS */
+  .sticky-bar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(244,250,246,0.96);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    padding: 0.85rem 1.25rem 0.95rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .progress-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--slate);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+    font-weight: 500;
+  }
+  .progress-bar {
+    flex: 1;
+    height: 8px;
+    background: var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--rust), var(--gold));
+    width: 0%;
+    transition: width 300ms ease;
+    border-radius: 999px;
+  }
+  .actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 0.7rem;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .btn {
+    font: inherit;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.5rem 0.9rem;
+    border-radius: 100px;
+    border: 1px solid var(--border);
+    background: var(--white);
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 180ms ease;
+  }
+  .btn:hover { border-color: var(--rust); color: var(--rust); }
+  .btn.primary {
+    background: var(--rust);
+    color: var(--cream);
+    border-color: var(--rust);
+  }
+  .btn.primary:hover { background: var(--rust-deep); border-color: var(--rust-deep); color: var(--cream); }
+  .btn.danger { color: var(--rust); border-color: var(--border); }
+  .btn.danger:hover { background: var(--rust-soft); border-color: var(--rust); }
+
+  /* MAIN */
+  .main {
+    padding: 1.25rem 1rem 0;
+  }
+
+  /* CALLOUT */
+  .callout {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 1.1rem 1.25rem;
+    margin-bottom: 0.85rem;
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .callout::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 4px;
+    background: var(--rust);
+  }
+  .callout.weather::before { background: var(--sage); }
+  .callout.qantas::before { background: var(--gold); }
+
+  .callout-eye {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--slate);
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+  .callout h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 0.6rem;
+  }
+  .callout h2 em { font-style: italic; color: var(--rust); font-weight: 400; }
+  .callout.weather h2 em { color: var(--sage); }
+  .callout.qantas h2 em { color: var(--gold); }
+  .callout p, .callout li {
+    font-size: 0.82rem;
+    line-height: 1.6;
+    color: var(--ink);
+    font-weight: 300;
+  }
+  .callout ul { padding-left: 1.1rem; margin-top: 0.35rem; }
+  .callout li { margin: 0.25rem 0; }
+  .callout li strong { font-weight: 500; color: var(--rust); }
+  .callout.weather li strong { color: var(--sage); }
+  .callout.qantas li strong { color: var(--gold); }
+
+  .baggage-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    margin-top: 0.6rem;
+  }
+  .baggage-cell {
+    background: var(--cream);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.6rem 0.75rem;
+  }
+  .baggage-cell-label {
+    font-size: 0.58rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--slate);
+    font-weight: 500;
+    margin-bottom: 0.2rem;
+  }
+  .baggage-cell-value {
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.4;
+  }
+  .baggage-cell-value small {
+    display: block;
+    font-weight: 300;
+    color: var(--slate);
+    font-size: 0.68rem;
+    margin-top: 0.15rem;
+  }
+  @media (max-width: 440px) {
+    .baggage-grid { grid-template-columns: 1fr; }
+  }
+
+  /* SECTION */
+  section.cat {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    margin-bottom: 0.75rem;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .cat-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    user-select: none;
+    gap: 0.75rem;
+    transition: background 180ms ease;
+    background: var(--card);
+  }
+  .cat-head:hover { background: #F0F9F3; }
+  .cat.open .cat-head { background: #F0F9F3; }
+  .cat-title {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    flex: 1;
+    min-width: 0;
+  }
+  .cat-num {
+    flex-shrink: 0;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 8px;
+    background: var(--cream);
+    border: 1.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1rem;
+    font-weight: 900;
+    color: var(--slate);
+    transition: background 220ms, border-color 220ms, color 220ms;
+  }
+  .cat.open .cat-num {
+    background: var(--rust);
+    border-color: var(--rust);
+    color: var(--cream);
+  }
+  .cat-label {
+    flex: 1;
+    min-width: 0;
+  }
+  .cat-eye {
+    font-size: 0.58rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 0.1rem;
+    font-weight: 500;
+  }
+  .cat-title h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.25;
+    letter-spacing: -0.005em;
+  }
+  .cat-title h3 em { font-style: italic; color: var(--rust); font-weight: 400; }
+  .cat-right {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    flex-shrink: 0;
+  }
+  .cat-count {
+    font-size: 0.68rem;
+    color: var(--slate);
+    font-variant-numeric: tabular-nums;
+    background: var(--cream);
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    border: 1px solid var(--border);
+  }
+  .cat-count.done {
+    background: var(--gold-light);
+    color: var(--gold);
+    border-color: var(--gold-soft);
+  }
+  .chev {
+    font-size: 0.85rem;
+    color: var(--rust);
+    transition: transform 280ms ease;
+  }
+  .cat.open .chev { transform: rotate(180deg); }
+
+  .cat-body {
+    padding: 0.5rem 1.25rem 1.25rem;
+    display: none;
+    border-top: 1px solid var(--border);
+  }
+  .cat.open .cat-body { display: block; }
+
+  .mini-progress {
+    height: 3px;
+    background: var(--border);
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 0.75rem 0 1rem;
+  }
+  .mini-progress > div {
+    height: 100%;
+    background: var(--rust);
+    width: 0%;
+    transition: width 220ms ease;
+    border-radius: 999px;
+  }
+
+  .sub-note {
+    background: var(--gold-light);
+    border-left: 3px solid var(--gold);
+    border-radius: 0 6px 6px 0;
+    padding: 0.7rem 0.9rem;
+    font-size: 0.78rem;
+    color: var(--ink);
+    margin: 0.25rem 0 1rem;
+    line-height: 1.55;
+    font-weight: 300;
+  }
+  .sub-note strong { font-weight: 500; color: var(--gold); }
+
+  /* ITEMS */
+  .item {
+    display: flex;
+    gap: 0.75rem;
+    padding: 0.6rem 0;
+    border-bottom: 1px dashed var(--border);
+    align-items: flex-start;
+  }
+  .item:last-of-type { border-bottom: none; }
+  .item input[type=checkbox] {
+    margin-top: 3px;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--rust);
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .item label {
+    cursor: pointer;
+    font-size: 0.88rem;
+    flex: 1;
+    color: var(--ink);
+    font-weight: 400;
+    line-height: 1.5;
+  }
+  .item label small {
+    display: block;
+    color: var(--slate);
+    font-size: 0.74rem;
+    font-weight: 300;
+    margin-top: 0.1rem;
+    line-height: 1.5;
+  }
+  .item.checked label {
+    text-decoration: line-through;
+    text-decoration-color: var(--rust);
+    color: var(--slate);
+    opacity: 0.55;
+  }
+
+  /* NOTES */
+  .notes {
+    margin-top: 1.1rem;
+  }
+  .notes-label {
+    display: block;
+    font-size: 0.58rem;
+    color: var(--slate);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    margin-bottom: 0.35rem;
+    font-weight: 500;
+  }
+  .notes textarea {
+    width: 100%;
+    min-height: 52px;
+    resize: vertical;
+    font: inherit;
+    font-size: 0.82rem;
+    padding: 0.6rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--cream);
+    color: var(--ink);
+    font-family: inherit;
+    transition: border-color 180ms, background 180ms;
+  }
+  .notes textarea:focus {
+    outline: none;
+    border-color: var(--rust);
+    background: var(--white);
+  }
+
+  /* CAPSULE */
+  .capsule-intro {
+    font-size: 0.82rem;
+    color: var(--ink);
+    line-height: 1.6;
+    font-weight: 300;
+    margin-bottom: 0.75rem;
+  }
+  .capsule-intro strong { font-weight: 500; color: var(--rust); }
+  .palette-chips {
+    display: flex;
+    gap: 0.45rem;
+    margin: 0.4rem 0 0.9rem;
+    flex-wrap: wrap;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--cream);
+    border: 1px solid var(--border);
+    padding: 0.3rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    color: var(--ink);
+    font-weight: 400;
+  }
+  .swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+  .capsule-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0.4rem 0 1rem;
+    font-size: 0.78rem;
+    background: var(--cream);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .capsule-table th, .capsule-table td {
+    text-align: left;
+    padding: 0.55rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .capsule-table th {
+    background: var(--rust-soft);
+    color: var(--rust);
+    font-weight: 500;
+    font-size: 0.6rem;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .capsule-table td { font-weight: 300; }
+  .capsule-table td:first-child { font-weight: 500; color: var(--ink); }
+  .capsule-table tr:last-child td { border-bottom: none; }
+
+  footer {
+    text-align: center;
+    color: var(--slate);
+    font-size: 0.7rem;
+    margin: 1.75rem 1rem 0;
+    letter-spacing: 0.04em;
+    font-weight: 300;
+  }
+  footer em {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  @media (max-width: 560px) {
+    .cat-head { padding: 0.85rem 1rem; }
+    .cat-body { padding: 0.4rem 1rem 1rem; }
+    .callout { padding: 1rem; }
+    .hero { padding: 1.75rem 1.25rem 1.5rem; }
+    .sticky-bar { padding: 0.7rem 1rem 0.8rem; }
+    .main { padding: 1rem 0.75rem 0; }
+  }
+
+  /* PRINT */
+  @media print {
+    body { background: #fff; color: #000; }
+    .sticky-bar, .actions, .no-print { display: none !important; }
+    .hero { background: #fff; color: #000; border-bottom: 2px solid #000; padding: 1rem 0; }
+    .hero-eye, .hero h1 em, .hero-sub, .hero-flights { color: #000; }
+    .hero-flights { background: #fff; border-color: #000; }
+    .cat, .callout { box-shadow: none; border-color: #ccc; break-inside: avoid; }
+    .cat-body { display: block !important; border-top: 1px solid #ddd; }
+    .chev { display: none; }
+    .item { break-inside: avoid; }
+    textarea { border: 1px solid #ccc; background: #fff; }
+    .callout::before { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero-eye">Sydney · New York · May 2026</div>
+    <h1><em>New York</em><br>Packing &amp; Prep</h1>
+    <div class="hero-sub">4–19 May 2026 · 13 nights · Park Central New York</div>
+    <div class="hero-flights">
+      <span>QF3 · SYD 9:10am 4 May → JFK 4:20pm</span>
+      <span>QF4 · JFK 7:20pm 17 May → SYD 8:20am 19 May</span>
+    </div>
+  </header>
+
+  <!-- STICKY PROGRESS -->
+  <div class="sticky-bar">
+    <div class="progress-row">
+      <div class="progress-label" id="overallLabel">0 / 0 · 0%</div>
+      <div class="progress-bar"><div class="progress-fill" id="overallFill"></div></div>
+    </div>
+    <div class="actions">
+      <button class="btn primary" onclick="window.print()">Print</button>
+      <button class="btn" onclick="expandAll(true)">Expand all</button>
+      <button class="btn" onclick="expandAll(false)">Collapse all</button>
+      <button class="btn danger" onclick="resetAll()">Reset all</button>
+    </div>
+  </div>
+
+  <div class="main">
+
+    <!-- NYC TIPS -->
+    <div class="callout">
+      <div class="callout-eye">Read first</div>
+      <h2>NYC-specific <em>tips</em></h2>
+      <ul>
+        <li><strong>Tipping is expected.</strong> 18–20% sit-down restaurants (sometimes added automatically — check the bill), $1–2 per drink at bars, $1–2 per bag for hotel porters, 15–20% for taxis/Uber, $2–5 per night for housekeeping (left daily).</li>
+        <li><strong>Transit — use OMNY, not MetroCard.</strong> Just tap your contactless card or phone (Apple Pay / Google Pay) at the turnstile. Fare capping kicks in after 12 rides in a 7-day window (effectively free unlimited).</li>
+        <li><strong>Safety:</strong> Very safe in tourist areas but stay aware — don't leave bags hanging on chair backs, be cautious on late-night empty subway platforms, ride the front carriages near the conductor after dark.</li>
+        <li><strong>Jaywalking is a way of life</strong> — but cars turn on green lights. Always check.</li>
+        <li><strong>Sales tax (~8.875%)</strong> is added at the register, not shown on price tags.</li>
+        <li><strong>Tap water is excellent</strong> — refill your bottle everywhere.</li>
+        <li><strong>Time difference:</strong> NYC is 14 hours behind Sydney during NYC's daylight saving.</li>
+      </ul>
+    </div>
+
+    <!-- WEATHER -->
+    <div class="callout weather">
+      <div class="callout-eye">May forecast</div>
+      <h2>NYC weather · <em>your dates</em></h2>
+      <ul>
+        <li><strong>Daytime highs:</strong> 18–23°C (64–74°F). Sunny days can push to 25°C+.</li>
+        <li><strong>Overnight lows:</strong> 10–13°C (50–55°F) — evenings feel noticeably cool.</li>
+        <li><strong>Rain:</strong> May averages ~10 rainy days/month. Expect 2–3 showers across 13 nights. Pack a compact umbrella and a packable rain layer.</li>
+        <li><strong>Layer up.</strong> Mornings cool, middays warm, evenings chilly again. Indoors (subway, restaurants) is heavily air-conditioned.</li>
+        <li><strong>UV:</strong> Moderate — SPF worth packing, especially for rooftop/observation-deck days.</li>
+        <li><em>Tip: check the 10-day forecast 3 days before you fly and tweak accordingly.</em></li>
+      </ul>
+    </div>
+
+    <!-- QANTAS BAGGAGE -->
+    <div class="callout qantas">
+      <div class="callout-eye">Qantas Economy · SYD ↔ JFK</div>
+      <h2>Baggage <em>allowance</em></h2>
+      <div class="baggage-grid">
+        <div class="baggage-cell">
+          <div class="baggage-cell-label">Checked</div>
+          <div class="baggage-cell-value">1 bag · 30 kg max<small>No single dimension over 140 cm</small></div>
+        </div>
+        <div class="baggage-cell">
+          <div class="baggage-cell-label">Carry-on total</div>
+          <div class="baggage-cell-value">14 kg combined<small>Main bag + small personal item</small></div>
+        </div>
+        <div class="baggage-cell">
+          <div class="baggage-cell-label">Main cabin bag</div>
+          <div class="baggage-cell-value">56 × 36 × 23 cm<small>Fits in overhead locker</small></div>
+        </div>
+        <div class="baggage-cell">
+          <div class="baggage-cell-label">Small personal item</div>
+          <div class="baggage-cell-value">40 × 30 × 15 cm<small>Handbag, laptop, or similar — under the seat</small></div>
+        </div>
+      </div>
+      <p style="margin-top:0.7rem;font-size:0.76rem;color:var(--slate);line-height:1.5;"><strong style="color:var(--gold);font-weight:500;">Liquids rule (carry-on):</strong> containers max 100ml each, all inside a single resealable 1-litre clear bag. Double-check airline site for final current limits before you fly.</p>
+    </div>
+
+    <!-- CHECKLIST -->
+    <div id="checklist"></div>
+
+    <footer class="no-print">
+      <p>Progress saves automatically in this browser. <em>Have a brilliant trip.</em> ✈️</p>
+    </footer>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   NYC Trip Checklist — v2 (reordered + updated)
+   ============================================================ */
+
+const DATA = [
+  {
+    id: "nyc-must-dos",
+    num: "00",
+    eye: "Orientation",
+    title: "NYC <em>must-knows</em>",
+    note: "A quick orientation layer before you dive in — tick when you've digested each.",
+    items: [
+      { id: "tip-omny", text: "Understand OMNY (tap-to-pay) vs MetroCard — just use OMNY" },
+      { id: "tip-tipping", text: "Internalise tipping ranges (18–20% restaurants, $1–2/drink)" },
+      { id: "tip-hotel", text: "Know your hotel cross-streets by heart: Park Central NY · 870 7th Ave at 56th St" },
+      { id: "tip-emergency", text: "Save 911 + Australian Consulate NYC number (+1 212-351-6500) in phone" },
+      { id: "tip-cash", text: "Small USD cash for bodegas, tips, bathroom attendants" },
+      { id: "tip-group-cash", text: "Extra cash in mixed denominations for group dinners (flagged on itinerary)" }
+    ]
+  },
+  {
+    id: "pre-trip",
+    num: "01",
+    eye: "Weeks out",
+    title: "Pre-trip <em>admin</em>",
+    note: "Work through these across the weeks before departure.",
+    items: [
+      { id: "pt-passport", text: "Passport valid 6+ months beyond travel (valid past ~19 Nov 2026)" },
+      { id: "pt-esta", text: "ESTA approval — apply via the official site (esta.cbp.dhs.gov), not a 3rd party" },
+      { id: "pt-insurance", text: "Travel insurance purchased + policy number + emergency line saved offline" },
+      { id: "pt-flights", text: "QF3 + QF4 confirmations saved offline (PDF + screenshots)" },
+      { id: "pt-hotel", text: "Park Central NY booking confirmed + confirmation saved offline" },
+      { id: "pt-hotel-payment", text: "Hotel payment ~AUD $1,850 paid to Monica Romano by 30 April" },
+      { id: "pt-transfer", text: "Airport transfers confirmed both ways (First Choice Shuttle + GO Airlink #835618/#835619)" },
+      { id: "pt-esim", text: "eSIM purchased (Airalo/Holafly) + activation instructions saved offline" },
+      { id: "pt-bank", text: "Notify bank + credit card issuers of overseas travel dates" },
+      { id: "pt-usd", text: "Order/withdraw ~US$200–300 cash for tips, bodegas, group dinners" },
+      { id: "pt-fees", text: "Check credit card foreign transaction fees — bring a no-fee travel card if possible" },
+      { id: "pt-maps", text: "Download offline Google Maps of NYC (all 5 boroughs)" },
+      { id: "pt-entertainment", text: "Pre-download: Netflix, Spotify, Apple Music, Kindle, podcasts" },
+      { id: "pt-bookings", text: "Book must-dos in advance: Broadway, observation decks (Edge/Summit/Empire State), Statue of Liberty ferry, top-tier restaurants" },
+      { id: "pt-ooo", text: "Draft out-of-office auto-reply (activate day of)" },
+      { id: "pt-scan", text: "Photocopy/scan passport, insurance, key bookings — cloud + printed copy with family" },
+      { id: "pt-itinerary", text: "Share itinerary + hotel details with a trusted person at home" },
+      { id: "pt-vax", text: "Check vaccinations are up to date (routine + COVID boosters as applicable)" },
+      { id: "pt-scripts", text: "Refill prescription medications — enough for full trip + a week buffer" },
+      { id: "pt-apps", text: "Download NYC apps: Citymapper, Uber/Lyft, OpenTable, Resy" },
+      { id: "pt-splitwise", text: "Splitwise set up with the girls for shared expenses" },
+      { id: "pt-wa", text: "Group WhatsApp set up + live-location sharing toggled on" }
+    ]
+  },
+  {
+    id: "day-before",
+    num: "02",
+    eye: "Sun 3 May",
+    title: "Day <em>before</em> departure",
+    note: "Time-sensitive — work through these the evening before the flight.",
+    items: [
+      { id: "db-checkin", text: "Online check-in opens 24h before (Sun 9:10am) — do it the moment it opens" },
+      { id: "db-seat", text: "Confirm seat selection (aisle for long-haul if you'll be moving around)" },
+      { id: "db-print", text: "Print boarding passes OR save to Apple/Google Wallet" },
+      { id: "db-checked", text: "Weigh checked bag — under 30 kg (Qantas Economy limit)" },
+      { id: "db-carry", text: "Weigh carry-on + personal item — under 14 kg combined" },
+      { id: "db-dims", text: "Check bag dimensions: cabin 56×36×23 cm, personal 40×30×15 cm" },
+      { id: "db-liquids", text: "Carry-on liquids: each ≤100ml, all inside one resealable 1L clear bag" },
+      { id: "db-charge", text: "Charge to 100%: phone, power bank, laptop, headphones, e-reader, camera" },
+      { id: "db-download", text: "Final downloads: Netflix episodes, Spotify playlists offline, Kindle books" },
+      { id: "db-ooo", text: "Out-of-office auto-reply switched on" },
+      { id: "db-packed", text: "Suitcase fully packed + weighed + closed" },
+      { id: "db-alarm", text: "Set wake-up alarm for 3:30am (second backup alarm too)" },
+      { id: "db-lay-out", text: "Lay out travel outfit + carry-on essentials ready to grab" }
+    ]
+  },
+  {
+    id: "morning-of",
+    num: "03",
+    eye: "Mon 4 May",
+    title: "Morning <em>of</em> departure",
+    note: "Alarm 3:30am · leave home 5:30am · QF3 departs SYD 9:10am.",
+    items: [
+      { id: "mo-alarm", text: "3:30am alarm — up and going" },
+      { id: "mo-shower", text: "Quick shower, dress in comfy flight outfit" },
+      { id: "mo-passport", text: "Passport + ESTA printout in carry-on (NOT checked)" },
+      { id: "mo-wallet", text: "Wallet: cards, AUD cash, USD cash, driver's licence" },
+      { id: "mo-phone", text: "Phone charged, eSIM ready to activate on NYC arrival" },
+      { id: "mo-windows", text: "Windows locked, aircon/heating off, main appliances off" },
+      { id: "mo-lights", text: "Set a lamp on a timer (optional extra security)" },
+      { id: "mo-water", text: "Empty reusable water bottle (fill after security)" },
+      { id: "mo-leave", text: "Leave home at 5:30am sharp — airport transfer confirmed" },
+      { id: "mo-arrive", text: "Arrive Sydney airport by ~6:10am (3 hours before QF3)" },
+      { id: "mo-sweep", text: "Final bag sweep: passport · wallet · phone · keys" }
+    ]
+  },
+  {
+    id: "docs",
+    num: "04",
+    eye: "Carry-on",
+    title: "Travel <em>documents</em>",
+    note: "All of this lives in your personal item — never in checked luggage.",
+    items: [
+      { id: "doc-passport", text: "Passport + printed ESTA approval" },
+      { id: "doc-flights", text: "Printed + digital copies of QF3 + QF4" },
+      { id: "doc-hotel", text: "Park Central NY booking confirmation (printed + digital)" },
+      { id: "doc-shuttle", text: "GO Airlink vouchers #835618 (arrival) + #835619 (departure)" },
+      { id: "doc-insurance", text: "Travel insurance card + policy number + 24h emergency phone" },
+      { id: "doc-licence", text: "Australian driver's licence (accepted as photo ID inside the US)" },
+      { id: "doc-emergency", text: "Printed emergency contact list (family, bank, insurance, consulate)" },
+      { id: "doc-cards", text: "2 payment cards + debit card, stored separately" },
+      { id: "doc-photos", text: "2 spare passport photos (in case of lost passport)" }
+    ]
+  },
+  {
+    id: "flight-kit",
+    num: "05",
+    eye: "20+ hours",
+    title: "Long-haul <em>comfort kit</em>",
+    note: "This kit is the difference between surviving and thriving.",
+    items: [
+      { id: "fk-pillow", text: "Neck pillow (inflatable ones save space)" },
+      { id: "fk-socks", text: "Compression socks (wear them — don't pack them)" },
+      { id: "fk-mask", text: "Silk eye mask + earplugs" },
+      { id: "fk-headphones", text: "Noise-cancelling headphones + airline 3.5mm adapter" },
+      { id: "fk-powerbank", text: "Portable power bank (airline limit: 100Wh / ~27,000mAh)" },
+      { id: "fk-cable", text: "Universal charging cable + wall plug" },
+      { id: "fk-bottle", text: "Empty reusable water bottle (through security, fill airside)" },
+      { id: "fk-lipbalm", text: "Lip balm, moisturiser, hand cream (travel sizes, in clear 1L bag)" },
+      { id: "fk-tooth", text: "Toothbrush + mini toothpaste" },
+      { id: "fk-deo", text: "Travel-size deodorant" },
+      { id: "fk-clothes", text: "Change of underwear + fresh socks + light layer top" },
+      { id: "fk-snacks", text: "Snacks (protein bars, nuts — finish before US arrival, biosecurity is strict)" },
+      { id: "fk-sleep", text: "Melatonin or preferred sleep aid" },
+      { id: "fk-meds", text: "Basic meds: painkillers, antihistamines, motion sickness" },
+      { id: "fk-pen", text: "Pen (for US entry forms)" },
+      { id: "fk-book", text: "Book or Kindle (screen-free option for landing prep)" },
+      { id: "fk-glasses", text: "Glasses case / contact lens case for overnight" }
+    ]
+  },
+  {
+    id: "clothing",
+    num: "06",
+    eye: "Capsule wardrobe",
+    title: "Clothing · <em>your capsule</em>",
+    note: "",
+    capsule: true,
+    items: [
+      { id: "cl-top-1", text: "Olive green long-sleeve tee", sub: "Accent colour; under trench, over jeans or khakis" },
+      { id: "cl-top-2", text: "Black crew t-shirt", sub: "Everyday base; works with every bottom and both coats" },
+      { id: "cl-top-3", text: "White short-sleeve tee", sub: "Clean casual; under blazer or knit; jeans or wide-legs" },
+      { id: "cl-top-4", text: "Black &amp; white breton stripe long-sleeve", sub: "Classic stroll-through-the-city look; jeans, khakis, blazer" },
+      { id: "cl-top-5", text: "Cream knit with black stripe (Little Lies)", sub: "Cool evenings; jeans, khakis, black pants, under trench" },
+      { id: "cl-top-6", text: "Textured stripe knit jumper (Pretty Garden)", sub: "Smart-casual layer for dinners or cooler days" },
+      { id: "cl-top-7", text: "White silky blouse", sub: "Dressier daytime + dinners; under blazer" },
+      { id: "cl-bot-1", text: "Mid-wash blue jeans (Abercrombie)", sub: "Daily workhorse — pairs with every top" },
+      { id: "cl-bot-2", text: "Black wide-leg trousers (White &amp; Co)", sub: "Dinners + smart-casual; dress up or down" },
+      { id: "cl-bot-3", text: "Beige / khaki wide-leg pants", sub: "Warmer days; pairs with every top and the trench" },
+      { id: "cl-out-1", text: "Camel classic trench coat", sub: "Waterproof layer over everything — NYC spring MVP" },
+      { id: "cl-out-2", text: "Black blazer (White &amp; Co)", sub: "Evening polish · over blouse, tee, or knit" },
+      { id: "cl-shoe-1", text: "White chunky sneakers (On Cloud)", sub: "Daily walking shoe — 20k+ steps" },
+      { id: "cl-shoe-2", text: "Cream / blush running sneakers", sub: "Alternate/rest day for your feet" },
+      { id: "cl-shoe-3", text: "Tan suede loafers w/ gold chain (Midas)", sub: "Smart-casual dinners, Broadway, lunches" },
+      { id: "cl-under", text: "Underwear x 15 (13 days + 2 spare)" },
+      { id: "cl-bra", text: "Bras x 3 (incl. 1 strapless if needed)" },
+      { id: "cl-socks", text: "Socks x 8 (mix ankle + longer for cool days)" },
+      { id: "cl-sleep", text: "Sleepwear x 2 sets" },
+      { id: "cl-tights", text: "Tights / hosiery (1 nude, 1 black) for cool evenings" },
+      { id: "cl-scarf", text: "Lightweight scarf (warmth + dresses up any outfit)" },
+      { id: "cl-rain", text: "Packable rain shell (backup to trench)" },
+      { id: "cl-thermal", text: "Thin thermal top (backup for cold snap evenings)" },
+      { id: "cl-evening", text: "Optional: dress or statement piece for Broadway / fine dining night" },
+      { id: "cl-gym", text: "Gym wear — only if hotel gym will actually be used" },
+      { id: "cl-swim", text: "Swimwear — only if hotel has pool/spa" }
+    ]
+  },
+  {
+    id: "toiletries",
+    num: "07",
+    eye: "Beauty bag",
+    title: "Toiletries &amp; <em>skincare</em>",
+    note: "Check hotel amenities first — most NYC hotels supply shampoo, conditioner, body wash.",
+    items: [
+      { id: "to-tooth", text: "Toothbrush, toothpaste, floss" },
+      { id: "to-hair", text: "Shampoo, conditioner, body wash (skip if hotel provides)" },
+      { id: "to-razor", text: "Razor + shaving cream" },
+      { id: "to-deo", text: "Deodorant" },
+      { id: "to-skin", text: "Skincare: cleanser, moisturiser, SPF" },
+      { id: "to-hairtools", text: "Hair styling products + tools (check dual voltage — US is 110V)" },
+      { id: "to-makeup", text: "Makeup + remover (wipes or oil)" },
+      { id: "to-perfume", text: "Perfume (consider decant/travel size)" },
+      { id: "to-contacts", text: "Contact lenses + solution + spare glasses" },
+      { id: "to-nails", text: "Nail clippers, tweezers, emery board" },
+      { id: "to-period", text: "Feminine hygiene products (US tampon sizes differ — bring what you like)" },
+      { id: "to-scripts", text: "Prescription meds in original packaging + printed script + doctor's letter if controlled" },
+      { id: "to-firstaid", text: "First-aid kit: band-aids, blister plasters, antiseptic, anti-diarrhoeal (Imodium), rehydration sachets (Hydralyte)" },
+      { id: "to-vitamins", text: "Daily vitamins / supplements" },
+      { id: "to-earplugs", text: "Earplugs (NYC is loud — sirens, traffic, thin hotel walls)" }
+    ]
+  },
+  {
+    id: "daypack",
+    num: "08",
+    eye: "Out & about",
+    title: "Daily <em>daypack</em>",
+    note: "Pack this the night before each day — it's your NYC kit.",
+    items: [
+      { id: "dp-bag", text: "Small daypack (cross-body or anti-theft backpack, secure zips)" },
+      { id: "dp-bottle", text: "Reusable water bottle (refill everywhere — tap water is excellent)" },
+      { id: "dp-charger", text: "Portable charger + cable" },
+      { id: "dp-snacks", text: "Snacks (walking 20k steps needs fuel)" },
+      { id: "dp-wallet", text: "Wallet: cards + $40–60 USD small notes" },
+      { id: "dp-sun", text: "Sunglasses, SPF, lip balm with SPF" },
+      { id: "dp-wipes", text: "Tissues / wet wipes / hand sanitiser" },
+      { id: "dp-umbrella", text: "Compact umbrella (May weather is variable)" },
+      { id: "dp-phone", text: "Phone with offline maps + Citymapper loaded" },
+      { id: "dp-layer", text: "Light layer / cardigan (NYC buildings are Arctic-cold AC)" },
+      { id: "dp-blisters", text: "Blister plasters + spare bandaids" },
+      { id: "dp-firstaid", text: "Mini first-aid: painkillers, antihistamines" },
+      { id: "dp-tote", text: "Foldable tote (NY charges for bags; great for shopping)" }
+    ]
+  },
+  {
+    id: "tech",
+    num: "09",
+    eye: "Chargers & cables",
+    title: "Tech <em>kit</em>",
+    note: "Australia uses Type I plugs · US uses Type A/B · you need an adapter.",
+    items: [
+      { id: "te-phone", text: "Phone + charger + cable" },
+      { id: "te-laptop", text: "Laptop / tablet + charger (if actually needed — otherwise skip)" },
+      { id: "te-camera", text: "Camera + charger + spare battery + memory cards" },
+      { id: "te-adapter", text: "US plug adapter (Type A/B) x 2 — one lives in your daypack" },
+      { id: "te-powerbank", text: "Power bank (check airline Wh limit)" },
+      { id: "te-cables", text: "All necessary cables (USB-C, Lightning, HDMI if needed)" },
+      { id: "te-headphones", text: "In-ear headphones for day use" },
+      { id: "te-reader", text: "E-reader (Kindle etc.) + charger" },
+      { id: "te-airtag", text: "AirTag / tracker in checked bag" }
+    ]
+  },
+  {
+    id: "nice-to-have",
+    num: "10",
+    eye: "Easy to forget",
+    title: "Nice-to-<em>haves</em>",
+    note: "",
+    items: [
+      { id: "nt-cubes", text: "Packing cubes or compression bags" },
+      { id: "nt-laundry", text: "Laundry bag for dirty clothes" },
+      { id: "nt-tote", text: "Reusable shopping tote (NYC plastic-bag fee)" },
+      { id: "nt-ziplock", text: "Ziplock bags (multi-purpose — leaks, wet items, snacks)" },
+      { id: "nt-sew", text: "Small sewing kit / safety pins" },
+      { id: "nt-stain", text: "Stain remover stick (Tide-to-Go)" },
+      { id: "nt-earplugs", text: "Earplugs for sleeping" },
+      { id: "nt-doorstop", text: "Door stopper (extra hotel room security)" },
+      { id: "nt-pphoto", text: "Spare passport photos" },
+      { id: "nt-lock", text: "TSA-approved luggage lock" },
+      { id: "nt-laundry-sheets", text: "Travel laundry sheets (for sink washes / quick refresh)" },
+      { id: "nt-journal", text: "Small notebook / travel journal + pen" },
+      { id: "nt-gift", text: "Small gift/souvenir if meeting anyone in NYC" }
+    ]
+  },
+  {
+    id: "might-have-missed",
+    num: "11",
+    eye: "Extras",
+    title: "Things you <em>might've missed</em>",
+    note: "Based on the shape of this trip — tick or delete as you go.",
+    items: [
+      { id: "ex-broadway", text: "Opera glasses / mini binoculars — if you're up in the Broadway balcony" },
+      { id: "ex-crossbody", text: "Anti-theft crossbody bag for evenings (hands-free, safer on subway)" },
+      { id: "ex-dinner-res", text: "Reconfirm restaurant reservations 24h out (Resy/OpenTable)" },
+      { id: "ex-broadway-rush", text: "TodayTix / Broadway lottery app for last-minute show deals" },
+      { id: "ex-vacc-card", text: "Digital vaccination record (some venues may still ask)" },
+      { id: "ex-tax-refund", text: "Note: NY State does NOT refund sales tax on purchases to tourists" },
+      { id: "ex-jetlag", text: "Jet-lag plan: aim for NYC time on the flight over (eat + sleep accordingly)" },
+      { id: "ex-shared-doc", text: "Shared notes doc with the girls (restaurant wishlist, reservations, photos)" },
+      { id: "ex-central-park", text: "Check if Central Park SummerStage / free events align with your dates" },
+      { id: "ex-farmers", text: "Sunday Union Square Greenmarket — if around on a Sunday" },
+      { id: "ex-weather-check", text: "Final 10-day forecast check 3 days before flying — adjust packing" },
+      { id: "ex-embassy", text: "Australian Consulate NYC saved: +1 212-351-6500 (150 E 42nd St)" },
+      { id: "ex-theft-plan", text: "Know what to do if phone/wallet is stolen (card block numbers, ICE contacts)" }
+    ]
+  }
+];
+
+const CAPSULE_TABLE_HTML = `
+  <p class="capsule-intro">
+    Here's your capsule built from the pieces you've already pulled — planned with the <strong>5-4-3-2-1 framework</strong> (tops · bottoms · outerwear · shoes · signature) and the <strong>Sudoku method</strong>: every item pairs with at least 3 others. Palette: <strong>black + white/cream + camel + olive accent + blue denim</strong>. Review the grid, then tick items as you pack.
+  </p>
+  <div class="palette-chips">
+    <span class="chip"><span class="swatch" style="background:#1a1a1a"></span> Black</span>
+    <span class="chip"><span class="swatch" style="background:#f4ede0"></span> Cream / white</span>
+    <span class="chip"><span class="swatch" style="background:#c4a987"></span> Camel / beige</span>
+    <span class="chip"><span class="swatch" style="background:#5C6B43"></span> Olive (accent)</span>
+    <span class="chip"><span class="swatch" style="background:#5f7a9e"></span> Blue denim</span>
+  </div>
+  <table class="capsule-table">
+    <thead>
+      <tr><th>Item</th><th>Colour</th><th>Pairs with</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Olive long-sleeve tee</td><td>Olive</td><td>Jeans, khakis, black pants, trench, blazer</td></tr>
+      <tr><td>Black crew t-shirt</td><td>Black</td><td>Every bottom, both coats, all shoes</td></tr>
+      <tr><td>White short-sleeve tee</td><td>White</td><td>Every bottom, blazer, trench, all shoes</td></tr>
+      <tr><td>Breton stripe long-sleeve</td><td>Black/white</td><td>Jeans, khakis, blazer, trench, sneakers</td></tr>
+      <tr><td>Cream knit w/ black stripe (Little Lies)</td><td>Cream</td><td>Jeans, khakis, black pants, trench, loafers</td></tr>
+      <tr><td>Textured stripe knit (Pretty Garden)</td><td>Black/white</td><td>Jeans, khakis, black pants, blazer, loafers</td></tr>
+      <tr><td>White silky blouse</td><td>White</td><td>Black pants, jeans, blazer, trench, loafers</td></tr>
+      <tr><td>Mid-wash blue jeans</td><td>Indigo</td><td>Every top · all 3 shoes · blazer · trench</td></tr>
+      <tr><td>Black wide-leg trousers</td><td>Black</td><td>Every top · loafers + white sneakers · blazer · trench</td></tr>
+      <tr><td>Beige / khaki wide-legs</td><td>Camel</td><td>Every top · all 3 shoes · trench · blazer</td></tr>
+      <tr><td>Black blazer (White &amp; Co)</td><td>Black</td><td>Every top · every bottom</td></tr>
+      <tr><td>Camel trench coat (signature)</td><td>Camel</td><td>Everything — the MVP</td></tr>
+      <tr><td>White chunky sneakers (On Cloud)</td><td>White</td><td>Every casual daytime look</td></tr>
+      <tr><td>Cream / blush runners</td><td>Cream</td><td>Casual day swap · rest your feet</td></tr>
+      <tr><td>Tan suede loafers (Midas)</td><td>Tan</td><td>Trousers, khakis, blouse, knits, blazer</td></tr>
+    </tbody>
+  </table>
+  <div class="sub-note">
+    <strong>Sudoku check passed:</strong> every item pairs with at least 3 others. Trench coat + black blazer = the unifiers. Olive tee is your only accent colour — everything else stays in the black / white / camel / denim lane.
+  </div>
+`;
+
+/* ---------- Storage ---------- */
+const STORAGE_KEY = "nyc-trip-checklist-v3";
+const NOTES_KEY   = "nyc-trip-checklist-notes-v3";
+
+function safeStorage() {
+  try {
+    const k = "__t"; localStorage.setItem(k, "1"); localStorage.removeItem(k);
+    return localStorage;
+  } catch (e) {
+    const mem = {};
+    return {
+      getItem: (k) => (k in mem ? mem[k] : null),
+      setItem: (k, v) => { mem[k] = String(v); },
+      removeItem: (k) => { delete mem[k]; }
+    };
+  }
+}
+const store = safeStorage();
+
+function loadChecks() { try { return JSON.parse(store.getItem(STORAGE_KEY) || "{}"); } catch(e) { return {}; } }
+function saveChecks(c) { store.setItem(STORAGE_KEY, JSON.stringify(c)); }
+function loadNotes() { try { return JSON.parse(store.getItem(NOTES_KEY) || "{}"); } catch(e) { return {}; } }
+function saveNotes(n) { store.setItem(NOTES_KEY, JSON.stringify(n)); }
+
+let checks = loadChecks();
+let notes  = loadNotes();
+
+/* ---------- Render ---------- */
+function render() {
+  const root = document.getElementById("checklist");
+  root.innerHTML = "";
+
+  DATA.forEach((cat, idx) => {
+    const section = document.createElement("section");
+    section.className = "cat" + (idx === 0 ? " open" : "");
+    section.dataset.catId = cat.id;
+
+    const head = document.createElement("div");
+    head.className = "cat-head";
+    head.innerHTML = `
+      <div class="cat-title">
+        <div class="cat-num">${cat.num}</div>
+        <div class="cat-label">
+          <div class="cat-eye">${cat.eye}</div>
+          <h3>${cat.title}</h3>
+        </div>
+      </div>
+      <div class="cat-right">
+        <span class="cat-count" id="count-${cat.id}">0 / ${cat.items.length}</span>
+        <span class="chev">▾</span>
+      </div>
+    `;
+    head.addEventListener("click", () => section.classList.toggle("open"));
+    section.appendChild(head);
+
+    const body = document.createElement("div");
+    body.className = "cat-body";
+
+    const mp = document.createElement("div");
+    mp.className = "mini-progress";
+    mp.innerHTML = `<div id="mini-${cat.id}"></div>`;
+    body.appendChild(mp);
+
+    if (cat.capsule) {
+      const wrap = document.createElement("div");
+      wrap.innerHTML = CAPSULE_TABLE_HTML;
+      body.appendChild(wrap);
+    }
+
+    if (cat.note) {
+      const n = document.createElement("div");
+      n.className = "sub-note";
+      n.textContent = cat.note;
+      body.appendChild(n);
+    }
+
+    cat.items.forEach(item => {
+      const row = document.createElement("div");
+      row.className = "item" + (checks[item.id] ? " checked" : "");
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.id = item.id;
+      cb.checked = !!checks[item.id];
+      cb.addEventListener("change", () => {
+        checks[item.id] = cb.checked;
+        saveChecks(checks);
+        row.classList.toggle("checked", cb.checked);
+        updateProgress();
+      });
+      const label = document.createElement("label");
+      label.setAttribute("for", item.id);
+      label.innerHTML = item.sub
+        ? `${escapeHtml(item.text)}<small>${escapeHtml(item.sub)}</small>`
+        : escapeHtml(item.text);
+      row.appendChild(cb);
+      row.appendChild(label);
+      body.appendChild(row);
+    });
+
+    const notesWrap = document.createElement("div");
+    notesWrap.className = "notes";
+    notesWrap.innerHTML = `
+      <label class="notes-label" for="notes-${cat.id}">Notes &amp; reminders</label>
+      <textarea id="notes-${cat.id}" placeholder="Jot anything…"></textarea>
+    `;
+    body.appendChild(notesWrap);
+
+    section.appendChild(body);
+    root.appendChild(section);
+
+    const ta = notesWrap.querySelector("textarea");
+    ta.value = notes[cat.id] || "";
+    ta.addEventListener("input", () => {
+      notes[cat.id] = ta.value;
+      saveNotes(notes);
+    });
+  });
+
+  updateProgress();
+}
+
+function updateProgress() {
+  let totalAll = 0, doneAll = 0;
+  DATA.forEach(cat => {
+    let done = 0;
+    cat.items.forEach(it => { if (checks[it.id]) done++; });
+    const total = cat.items.length;
+    totalAll += total;
+    doneAll += done;
+
+    const countEl = document.getElementById("count-" + cat.id);
+    if (countEl) {
+      countEl.textContent = `${done} / ${total}`;
+      countEl.classList.toggle("done", done === total && total > 0);
+    }
+    const miniEl = document.getElementById("mini-" + cat.id);
+    if (miniEl) miniEl.style.width = total ? (done / total * 100).toFixed(1) + "%" : "0%";
+  });
+
+  const pct = totalAll ? (doneAll / totalAll * 100) : 0;
+  document.getElementById("overallFill").style.width = pct.toFixed(1) + "%";
+  document.getElementById("overallLabel").textContent =
+    `${doneAll} / ${totalAll} · ${pct.toFixed(0)}%`;
+}
+
+function expandAll(open) {
+  document.querySelectorAll("section.cat").forEach(s => s.classList.toggle("open", open));
+}
+
+function resetAll() {
+  if (!confirm("Reset all checkboxes and clear all notes? This cannot be undone.")) return;
+  checks = {}; notes = {};
+  saveChecks(checks); saveNotes(notes);
+  render();
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
+  }[c]));
+}
+
+render();
+</script>
+</body>
+</html>
