@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NYC Trip Checklist — 4–19 May 2026</title>
+<style>
+  :root {
+    --bg: #f7f5f0;
+    --card: #ffffff;
+    --ink: #1b1d22;
+    --ink-soft: #55606d;
+    --muted: #8a93a0;
+    --line: #e6e3db;
+    --accent: #b8860b;        /* muted gold — NYC-tasteful */
+    --accent-soft: #f4e9c6;
+    --accent-ink: #6d4f04;
+    --success: #2e7d4f;
+    --danger: #8b2e2e;
+    --shadow: 0 1px 2px rgba(15,20,30,0.04), 0 8px 24px rgba(15,20,30,0.06);
+    --radius: 12px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 24px 18px 80px;
+  }
+  header.hero {
+    padding: 8px 0 20px;
+  }
+  header.hero h1 {
+    font-size: 28px;
+    margin: 0 0 4px;
+    letter-spacing: -0.02em;
+  }
+  header.hero .meta {
+    color: var(--ink-soft);
+    font-size: 14px;
+  }
+  .sticky-bar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: var(--bg);
+    padding: 10px 0 12px;
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 16px;
+  }
+  .progress-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .progress-label {
+    font-size: 13px;
+    color: var(--ink-soft);
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+  .progress-bar {
+    flex: 1;
+    height: 10px;
+    background: var(--line);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), #d4a437);
+    width: 0%;
+    transition: width 240ms ease;
+  }
+  .actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+  .btn {
+    font: inherit;
+    font-size: 13px;
+    padding: 7px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--card);
+    color: var(--ink);
+    cursor: pointer;
+    transition: background 120ms ease, border-color 120ms ease;
+  }
+  .btn:hover { border-color: var(--accent); }
+  .btn.primary {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+  .btn.primary:hover { background: #a3770a; border-color: #a3770a; }
+  .btn.danger { color: var(--danger); }
+
+  .callout {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    margin-bottom: 18px;
+    box-shadow: var(--shadow);
+  }
+  .callout h2 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--accent-ink);
+  }
+  .callout ul { margin: 6px 0 0; padding-left: 20px; }
+  .callout li { margin: 4px 0; font-size: 14px; color: var(--ink-soft); }
+  .callout.weather { border-left-color: #3a7ca5; }
+  .callout.weather h2 { color: #2f5f82; }
+
+  section.cat {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    margin-bottom: 14px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .cat-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    cursor: pointer;
+    user-select: none;
+    background: var(--card);
+    gap: 10px;
+  }
+  .cat-head:hover { background: #fbfaf6; }
+  .cat-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .cat-title h3 {
+    font-size: 16px;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .cat-count {
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+    background: var(--bg);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+  .cat-count.done { background: var(--accent-soft); color: var(--accent-ink); }
+  .chev {
+    transition: transform 200ms ease;
+    color: var(--muted);
+    font-size: 12px;
+  }
+  .cat.open .chev { transform: rotate(90deg); }
+  .cat-body {
+    padding: 4px 18px 18px;
+    display: none;
+    border-top: 1px solid var(--line);
+  }
+  .cat.open .cat-body { display: block; }
+
+  .mini-progress {
+    height: 4px;
+    background: var(--line);
+    border-radius: 999px;
+    overflow: hidden;
+    margin: 10px 0 14px;
+  }
+  .mini-progress > div {
+    height: 100%;
+    background: var(--accent);
+    width: 0%;
+    transition: width 200ms ease;
+  }
+
+  .item {
+    display: flex;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px dashed var(--line);
+    align-items: flex-start;
+  }
+  .item:last-of-type { border-bottom: none; }
+  .item input[type=checkbox] {
+    margin-top: 3px;
+    width: 18px;
+    height: 18px;
+    accent-color: var(--accent);
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .item label {
+    cursor: pointer;
+    font-size: 14.5px;
+    flex: 1;
+  }
+  .item label small {
+    display: block;
+    color: var(--muted);
+    font-size: 12.5px;
+    margin-top: 2px;
+  }
+  .item.checked label {
+    text-decoration: line-through;
+    color: var(--muted);
+    opacity: 0.55;
+  }
+
+  .notes {
+    margin-top: 14px;
+  }
+  .notes label {
+    display: block;
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+  .notes textarea {
+    width: 100%;
+    min-height: 48px;
+    resize: vertical;
+    font: inherit;
+    font-size: 14px;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: #fdfcf8;
+    color: var(--ink);
+  }
+  .notes textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: white;
+  }
+
+  /* Capsule table */
+  .capsule-intro {
+    margin: 0 0 10px;
+    font-size: 13.5px;
+    color: var(--ink-soft);
+  }
+  .capsule-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 6px 0 18px;
+    font-size: 13px;
+    background: #fdfcf8;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .capsule-table th, .capsule-table td {
+    text-align: left;
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+  .capsule-table th {
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .capsule-table tr:last-child td { border-bottom: none; }
+  .palette-chips {
+    display: flex;
+    gap: 8px;
+    margin: 6px 0 12px;
+    flex-wrap: wrap;
+  }
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #fdfcf8;
+    border: 1px solid var(--line);
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+  .swatch {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.08);
+  }
+
+  .sub-note {
+    background: #fbfaf6;
+    border: 1px dashed var(--line);
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 8px 0 14px;
+  }
+
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 24px;
+  }
+
+  @media (max-width: 560px) {
+    header.hero h1 { font-size: 22px; }
+    .cat-head { padding: 12px 14px; }
+    .cat-body { padding: 4px 14px 14px; }
+  }
+
+  /* Print */
+  @media print {
+    :root { --bg: #fff; }
+    body { background: #fff; }
+    .sticky-bar, .actions, .no-print { display: none !important; }
+    .cat, .callout { box-shadow: none; border-color: #ccc; break-inside: avoid; }
+    .cat-body { display: block !important; border-top: 1px solid #ddd; }
+    .chev { display: none; }
+    .item { break-inside: avoid; }
+    textarea { border: 1px solid #ccc; background: #fff; }
+    header.hero h1 { font-size: 20px; }
+    .wrap { padding: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <h1>NYC Trip Checklist</h1>
+    <div class="meta">Sydney → New York City · 4–19 May 2026 · 13 nights · Girls trip</div>
+  </header>
+
+  <div class="sticky-bar">
+    <div class="progress-row">
+      <div class="progress-bar"><div class="progress-fill" id="overallFill"></div></div>
+      <div class="progress-label" id="overallLabel">0 / 0 · 0%</div>
+    </div>
+    <div class="actions">
+      <button class="btn primary" onclick="window.print()">Print</button>
+      <button class="btn" onclick="expandAll(true)">Expand all</button>
+      <button class="btn" onclick="expandAll(false)">Collapse all</button>
+      <button class="btn danger" onclick="resetAll()">Reset all</button>
+    </div>
+  </div>
+
+  <!-- NYC Tips -->
+  <div class="callout">
+    <h2>NYC-specific tips</h2>
+    <ul>
+      <li><strong>Tipping is expected, not optional.</strong> 18–20% at sit-down restaurants (some now add it automatically — check the bill), $1–2 per drink at bars, $1–2 per bag for hotel porters, 15–20% for taxis/Uber, $2–5 for housekeeping per night left daily.</li>
+      <li><strong>Transit — use OMNY, not MetroCard.</strong> Just tap your contactless credit/debit card or phone (Apple Pay / Google Pay) at the turnstile. Fare capping kicks in after 12 rides in a week (effectively free unlimited).</li>
+      <li><strong>Safety:</strong> NYC is very safe in tourist areas but stay aware — don't leave bags hanging on chair backs, be cautious on late-night empty subway platforms, use the front carriages near the conductor after dark.</li>
+      <li><strong>Jaywalking is a way of life</strong> but cars turn on green lights too — always check.</li>
+      <li><strong>Sales tax (~8.875%)</strong> is added at the register, not shown on price tags. Factor this in.</li>
+      <li><strong>Tap water is excellent</strong> and free — refill your bottle everywhere.</li>
+      <li><strong>Sunday Broadway shows and Monday museum closures</strong> — double-check your itinerary.</li>
+      <li><strong>Time difference:</strong> NYC is 14 hours behind Sydney (during NYC's daylight saving). Plan calls home accordingly.</li>
+    </ul>
+  </div>
+
+  <!-- Weather -->
+  <div class="callout weather">
+    <h2>NYC weather · early-to-mid May (your dates)</h2>
+    <ul>
+      <li><strong>Typical daytime highs:</strong> 18–23°C (64–74°F). Sunny days can push to 25°C+.</li>
+      <li><strong>Overnight lows:</strong> 10–13°C (50–55°F) — evenings feel noticeably cool.</li>
+      <li><strong>Rain:</strong> May averages ~10 rainy days/month. Expect at least 2–3 showers across 13 nights. Pack a compact umbrella and a packable rain layer.</li>
+      <li><strong>Layering is essential.</strong> Mornings cool, middays warm, evenings chilly again. Indoors (subway, restaurants) is heavily air-conditioned.</li>
+      <li><strong>UV:</strong> Moderate — sunscreen still worth packing, especially for rooftop/observation-deck days.</li>
+      <li><em>Tip: check a 10-day forecast 3 days before you fly and adjust — May can swing.</em></li>
+    </ul>
+  </div>
+
+  <!-- Checklist root -->
+  <div id="checklist"></div>
+
+  <footer class="no-print">
+    <p>Progress saves automatically in this browser. Built for Monica · have a brilliant trip. ✈️</p>
+  </footer>
+</div>
+
+<script>
+/* ============================================================
+   NYC Trip Checklist — data + render + state
+   ============================================================ */
+
+const DATA = [
+  {
+    id: "nyc-must-dos",
+    title: "NYC-specific tips & must-dos (read first)",
+    note: "A quick orientation layer before you dive in — tick when you've digested each.",
+    items: [
+      { id: "tip-omny", text: "Understand OMNY (tap-to-pay) vs MetroCard — just use OMNY" },
+      { id: "tip-tipping", text: "Internalise tipping ranges (18–20% restaurants, $1–2/drink)" },
+      { id: "tip-maps", text: "Know your hotel's cross-streets by heart" },
+      { id: "tip-emergency", text: "Save 911 + Australian Consulate NYC number in phone" },
+      { id: "tip-cash", text: "Small USD cash for bathroom attendants, bodegas, tips" }
+    ]
+  },
+  {
+    id: "day-before",
+    title: "Day before departure (3 May)",
+    note: "Time-sensitive — work through the evening before the flight.",
+    items: [
+      { id: "db-checkin", text: "Online check-in opens 24h before — do it the moment it opens" },
+      { id: "db-seat", text: "Confirm seat selection (aisle for long-haul if you'll move around)" },
+      { id: "db-print", text: "Print boarding passes OR save to Apple/Google Wallet" },
+      { id: "db-weigh", text: "Weigh checked + carry-on bags — know your airline's limits" },
+      { id: "db-charge", text: "Charge phone, power bank, laptop, headphones, e-reader, camera to 100%" },
+      { id: "db-download", text: "Download offline: Google Maps NYC, Netflix shows, Spotify playlists, Kindle books" },
+      { id: "db-ooo", text: "Out-of-office auto-reply switched on" },
+      { id: "db-fridge", text: "Clear out fridge perishables" },
+      { id: "db-bin", text: "Take bins out if collection is during trip" },
+      { id: "db-handover", text: "Final handover to pet/plant sitter or mail collector" },
+      { id: "db-sleep", text: "Set a reasonable bedtime — don't start the trip exhausted" }
+    ]
+  },
+  {
+    id: "morning-of",
+    title: "Morning of departure (4 May)",
+    note: "Final sweep before leaving the house.",
+    items: [
+      { id: "mo-passport", text: "Passport + ESTA printout in carry-on (not checked luggage)" },
+      { id: "mo-wallet", text: "Wallet: cards, AUD cash, USD cash, driver's licence" },
+      { id: "mo-phone", text: "Phone charged, eSIM ready to activate on arrival" },
+      { id: "mo-keys", text: "House keys handed over or secured" },
+      { id: "mo-windows", text: "Windows locked, aircon/heating off, main appliances off" },
+      { id: "mo-lights", text: "Set a lamp on a timer if staying away long (optional)" },
+      { id: "mo-water", text: "Empty reusable water bottle (fill after security)" },
+      { id: "mo-transfer", text: "Confirm airport transfer pickup time" },
+      { id: "mo-arrive", text: "Arrive at Sydney airport 3+ hours before international flight" }
+    ]
+  },
+  {
+    id: "pre-trip",
+    title: "1. Pre-trip admin",
+    note: "Work through across the weeks before departure.",
+    items: [
+      { id: "pt-passport", text: "Passport valid 6+ months beyond travel (i.e. valid past ~19 Nov 2026)" },
+      { id: "pt-esta", text: "ESTA approval — apply via official site (esta.cbp.dhs.gov), not a 3rd party" },
+      { id: "pt-insurance", text: "Travel insurance purchased + policy number + emergency line saved offline" },
+      { id: "pt-flights", text: "Flights booked + confirmation saved offline (PDF + screenshots)" },
+      { id: "pt-hotel", text: "Accommodation booked + confirmation saved offline" },
+      { id: "pt-transfer", text: "Airport transfers booked (Sydney end + NYC end — JFK/LGA/EWR options)" },
+      { id: "pt-esim", text: "eSIM purchased (Airalo/Holafly) + activation instructions saved offline" },
+      { id: "pt-bank", text: "Notify bank + credit card issuers of overseas travel dates" },
+      { id: "pt-usd", text: "Order/withdraw ~US$200–300 cash for tips, bodegas, small vendors" },
+      { id: "pt-fees", text: "Check credit card foreign transaction fees — bring a no-fee travel card if possible" },
+      { id: "pt-maps", text: "Download offline Google Maps of NYC (all 5 boroughs)" },
+      { id: "pt-entertainment", text: "Pre-download: Netflix, Spotify, Apple Music, Kindle, podcasts" },
+      { id: "pt-bookings", text: "Book must-dos in advance: Broadway, observation decks (Edge/Summit/Empire State), Statue of Liberty ferry, top-tier restaurants" },
+      { id: "pt-mail", text: "Set mail/package hold or arrange someone to collect" },
+      { id: "pt-pets", text: "Arrange pet / plant care" },
+      { id: "pt-ooo", text: "Draft out-of-office auto-reply (activate day of)" },
+      { id: "pt-scan", text: "Photocopy/scan passport, insurance, key bookings — cloud + printed copy with family" },
+      { id: "pt-itinerary", text: "Share itinerary link (rommon76.github.io/NYC-trip) with a trusted person" },
+      { id: "pt-vax", text: "Check vaccinations are up to date (routine + COVID boosters as applicable)" },
+      { id: "pt-scripts", text: "Refill prescription medications — enough for full trip + a week buffer" },
+      { id: "pt-driving", text: "If renting anywhere: international driver's permit (NYC itself — not needed)" },
+      { id: "pt-apps", text: "Download NYC apps: Citymapper, Uber/Lyft, OpenTable, Resy, Too Good To Go" }
+    ]
+  },
+  {
+    id: "docs",
+    title: "2. Travel documents (carry-on)",
+    note: "All of this lives in your personal item — never in checked luggage.",
+    items: [
+      { id: "doc-passport", text: "Passport + printed ESTA approval" },
+      { id: "doc-flights", text: "Printed + digital copies of flights (both directions)" },
+      { id: "doc-hotel", text: "Hotel confirmation (printed + digital)" },
+      { id: "doc-insurance", text: "Travel insurance card + policy number + 24h emergency phone" },
+      { id: "doc-licence", text: "Australian driver's licence (accepted as photo ID inside the US)" },
+      { id: "doc-emergency", text: "Printed emergency contact list (family, bank, insurance, embassy)" },
+      { id: "doc-cards", text: "2 x payment cards + debit card, stored separately" },
+      { id: "doc-photos", text: "2 x passport photos (in case of passport loss)" }
+    ]
+  },
+  {
+    id: "flight-kit",
+    title: "3. Long-haul flight comfort kit (carry-on)",
+    note: "20+ hours of flying — this kit is the difference between surviving and thriving.",
+    items: [
+      { id: "fk-pillow", text: "Neck pillow (inflatable ones save space)" },
+      { id: "fk-socks", text: "Compression socks (wear them — not pack them)" },
+      { id: "fk-mask", text: "Eye mask + earplugs" },
+      { id: "fk-headphones", text: "Noise-cancelling headphones + airline 3.5mm adapter" },
+      { id: "fk-powerbank", text: "Portable power bank (airline limit usually 100Wh / ~27,000mAh)" },
+      { id: "fk-cable", text: "Universal charging cable + wall plug" },
+      { id: "fk-bottle", text: "Empty reusable water bottle (through security, fill airside)" },
+      { id: "fk-lipbalm", text: "Lip balm, moisturiser, hand cream (travel sizes, in clear bag)" },
+      { id: "fk-tooth", text: "Toothbrush + mini toothpaste" },
+      { id: "fk-deo", text: "Travel-size deodorant" },
+      { id: "fk-clothes", text: "Change of underwear + fresh socks + light layer top" },
+      { id: "fk-snacks", text: "Snacks (protein bars, nuts — finish before US arrival, biosecurity is strict)" },
+      { id: "fk-sleep", text: "Melatonin or preferred sleep aid" },
+      { id: "fk-meds", text: "Basic meds: painkillers, antihistamines, motion sickness" },
+      { id: "fk-pen", text: "Pen (for US entry forms)" },
+      { id: "fk-book", text: "Book or Kindle (screen-free option for landing prep)" },
+      { id: "fk-glasses", text: "Glasses case / contact lens case for overnight" }
+    ]
+  },
+  {
+    id: "clothing",
+    title: "4. Clothing — capsule wardrobe (5-4-3-2-1 + Sudoku method)",
+    note: "",
+    capsule: true,
+    items: [
+      // 5 tops
+      { id: "cl-top-1", text: "Top 1 — Cream / ivory fitted tee", sub: "Base layer under everything; daytime casual" },
+      { id: "cl-top-2", text: "Top 2 — Navy breton striped long-sleeve tee", sub: "Casual + sightseeing; works under blazer" },
+      { id: "cl-top-3", text: "Top 3 — Cream silky blouse", sub: "Smart-casual for dinners; layers under blazer or trench" },
+      { id: "cl-top-4", text: "Top 4 — Navy fine-knit jumper", sub: "Cool evenings, layer over tee or blouse" },
+      { id: "cl-top-5", text: "Top 5 — Burgundy silk cami", sub: "Evening/Broadway; dresses up jeans or trousers" },
+      // 4 bottoms
+      { id: "cl-bot-1", text: "Bottom 1 — Dark-wash straight-leg jeans", sub: "Everyday workhorse" },
+      { id: "cl-bot-2", text: "Bottom 2 — Black tailored trousers", sub: "Dinners + smart-casual" },
+      { id: "cl-bot-3", text: "Bottom 3 — Navy midi skirt", sub: "Warmer days; dress up or down" },
+      { id: "cl-bot-4", text: "Bottom 4 — Cream wide-leg trousers", sub: "Dressier daytime, lunches, galleries" },
+      // 3 dresses / outfits / accessories
+      { id: "cl-dress-1", text: "Piece 1 — Navy midi wrap dress", sub: "Daytime polished; works with sneakers or loafers" },
+      { id: "cl-dress-2", text: "Piece 2 — Burgundy slip dress", sub: "Broadway / fine dining night" },
+      { id: "cl-dress-3", text: "Piece 3 — Black cropped blazer", sub: "Layers over any top; instant evening polish" },
+      // 2 shoes
+      { id: "cl-shoe-1", text: "Shoes 1 — White leather sneakers (broken in!)", sub: "Walking 20k+ steps/day — this is non-negotiable" },
+      { id: "cl-shoe-2", text: "Shoes 2 — Black block-heel loafers / low pumps", sub: "Evenings + dinners" },
+      // 1 signature
+      { id: "cl-hat-1", text: "Signature — Cream wide-brim hat OR classic trench coat", sub: "Ties the capsule together; photogenic" },
+      // extras
+      { id: "cl-under", text: "Underwear x 15 (13 days + 2 spare)" },
+      { id: "cl-bra", text: "Bras x 3 (incl. 1 strapless for slip dress)" },
+      { id: "cl-socks", text: "Socks x 8 (mix ankle + longer for cool days)" },
+      { id: "cl-sleep", text: "Sleepwear x 2 sets" },
+      { id: "cl-tights", text: "Tights / hosiery (1 nude, 1 black) for cool evenings" },
+      { id: "cl-trench", text: "Weather-specific outerwear: classic trench coat (waterproof ideal)" },
+      { id: "cl-scarf", text: "Lightweight scarf (warmth + dresses up any outfit)" },
+      { id: "cl-rain", text: "Packable rain shell (backup to trench)" },
+      { id: "cl-thermal", text: "Thin thermal top (backup for cold snap evenings)" },
+      { id: "cl-gym", text: "Gym wear — only if hotel gym will actually be used" },
+      { id: "cl-swim", text: "Swimwear — only if hotel has pool/spa" }
+    ]
+  },
+  {
+    id: "toiletries",
+    title: "5. Toiletries",
+    note: "Check hotel amenities first — most NYC hotels supply shampoo, conditioner, body wash.",
+    items: [
+      { id: "to-tooth", text: "Toothbrush, toothpaste, floss" },
+      { id: "to-hair", text: "Shampoo, conditioner, body wash (skip if hotel provides)" },
+      { id: "to-razor", text: "Razor + shaving cream" },
+      { id: "to-deo", text: "Deodorant" },
+      { id: "to-skin", text: "Skincare: cleanser, moisturiser, SPF" },
+      { id: "to-hairtools", text: "Hair styling products + tools (check dual voltage — US is 110V)" },
+      { id: "to-makeup", text: "Makeup + remover (wipes or oil)" },
+      { id: "to-perfume", text: "Perfume (consider decant/travel size)" },
+      { id: "to-contacts", text: "Contact lenses + solution + spare glasses" },
+      { id: "to-nails", text: "Nail clippers, tweezers, emery board" },
+      { id: "to-period", text: "Feminine hygiene products (US tampon sizes differ — bring what you like)" },
+      { id: "to-scripts", text: "Prescription meds in original packaging + printed script + doctor's letter if controlled" },
+      { id: "to-firstaid", text: "First-aid kit: band-aids, blister plasters, antiseptic, anti-diarrhoeal (Imodium), rehydration sachets (Hydralyte)" },
+      { id: "to-vitamins", text: "Daily vitamins / supplements" },
+      { id: "to-earplugs", text: "Earplugs (NYC is loud — sirens, traffic, thin hotel walls)" }
+    ]
+  },
+  {
+    id: "daypack",
+    title: "6. Daily sightseeing backpack",
+    note: "Pack this the night before each day — it's your NYC kit.",
+    items: [
+      { id: "dp-bag", text: "Small daypack (cross-body or anti-theft backpack, secure zips)" },
+      { id: "dp-bottle", text: "Reusable water bottle (refill everywhere — tap water is excellent)" },
+      { id: "dp-charger", text: "Portable charger + cable" },
+      { id: "dp-snacks", text: "Snacks (walking 20k steps needs fuel)" },
+      { id: "dp-wallet", text: "Wallet: cards + $40–60 USD small notes" },
+      { id: "dp-sun", text: "Sunglasses, SPF, lip balm with SPF" },
+      { id: "dp-wipes", text: "Tissues / wet wipes / hand sanitiser" },
+      { id: "dp-umbrella", text: "Compact umbrella (May weather is variable)" },
+      { id: "dp-phone", text: "Phone with offline maps + Citymapper loaded" },
+      { id: "dp-layer", text: "Light layer / cardigan (NYC buildings are Arctic-cold AC)" },
+      { id: "dp-blisters", text: "Blister plasters + spare bandaids" },
+      { id: "dp-firstaid", text: "Mini first-aid: painkillers, antihistamines" },
+      { id: "dp-tote", text: "Foldable tote (NY charges for bags; great for shopping)" }
+    ]
+  },
+  {
+    id: "tech",
+    title: "7. Tech",
+    note: "Remember: Australia uses Type I plugs. US uses Type A/B. You need an adapter.",
+    items: [
+      { id: "te-phone", text: "Phone + charger + cable" },
+      { id: "te-laptop", text: "Laptop / tablet + charger (if actually needed — otherwise skip)" },
+      { id: "te-camera", text: "Camera + charger + spare battery + memory cards" },
+      { id: "te-adapter", text: "US plug adapter (Type A/B) — 2 x, one lives in daypack" },
+      { id: "te-powerbank", text: "Power bank (check airline Wh limit)" },
+      { id: "te-cables", text: "All necessary cables (USB-C, Lightning, HDMI if needed)" },
+      { id: "te-headphones", text: "In-ear headphones for day use" },
+      { id: "te-reader", text: "E-reader (Kindle etc.) + charger" },
+      { id: "te-airtag", text: "AirTag / tracker in checked bag" }
+    ]
+  },
+  {
+    id: "nice-to-have",
+    title: "8. Nice-to-haves / easy to forget",
+    note: "",
+    items: [
+      { id: "nt-cubes", text: "Packing cubes or compression bags" },
+      { id: "nt-laundry", text: "Laundry bag for dirty clothes" },
+      { id: "nt-tote", text: "Reusable shopping tote (NYC plastic-bag fee)" },
+      { id: "nt-ziplock", text: "Ziplock bags (multi-purpose — leaks, wet items, snacks)" },
+      { id: "nt-sew", text: "Small sewing kit / safety pins" },
+      { id: "nt-stain", text: "Stain remover stick (Tide-to-Go)" },
+      { id: "nt-earplugs", text: "Earplugs for sleeping" },
+      { id: "nt-doorstop", text: "Door stopper (extra hotel room security)" },
+      { id: "nt-pphoto", text: "Spare passport photos" },
+      { id: "nt-lock", text: "TSA-approved luggage lock" },
+      { id: "nt-laundry-sheets", text: "Travel laundry sheets (for sink washes / quick refresh)" },
+      { id: "nt-journal", text: "Small notebook / travel journal + pen" },
+      { id: "nt-gift", text: "Small gift/souvenir if meeting anyone in NYC" }
+    ]
+  },
+  {
+    id: "might-have-missed",
+    title: "9. Extras you might have missed (suggestions)",
+    note: "Based on the shape of this trip — tick or delete as you go.",
+    items: [
+      { id: "ex-broadway", text: "Opera-glasses / mini binoculars — if you're up in the Broadway balcony" },
+      { id: "ex-crossbody", text: "Anti-theft crossbody bag for evenings (hands-free, safer on subway)" },
+      { id: "ex-dinner-res", text: "Reconfirm restaurant reservations 24h out (Resy/OpenTable)" },
+      { id: "ex-broadway-rush", text: "TodayTix / Broadway lottery app for last-minute show deals" },
+      { id: "ex-vacc-card", text: "Digital vaccination record (some venues may still ask)" },
+      { id: "ex-tax-refund", text: "Note: NY State does NOT refund sales tax on purchases to tourists" },
+      { id: "ex-jetlag", text: "Jet-lag plan: aim for NYC time on the flight over (eat + sleep accordingly)" },
+      { id: "ex-group-payment", text: "Group-trip payment plan: Splitwise set up with the girls" },
+      { id: "ex-shared-doc", text: "Shared notes doc with the group (restaurant wishlist, reservations, photos)" },
+      { id: "ex-central-park", text: "Check if Central Park SummerStage / free events align with your dates" },
+      { id: "ex-farmers", text: "Sunday Union Square Greenmarket — if you're around on a Sunday" },
+      { id: "ex-weather-check", text: "Final 10-day forecast check 3 days before flying — adjust packing" },
+      { id: "ex-embassy", text: "Australian Consulate NYC saved: +1 212-351-6500 (150 E 42nd St)" },
+      { id: "ex-theft-plan", text: "Know what to do if phone/wallet is stolen (card block numbers, ICE contacts)" },
+      { id: "ex-whatsapp", text: "Group WhatsApp live-location sharing set up among the girls" }
+    ]
+  }
+];
+
+const CAPSULE_TABLE_HTML = `
+  <p class="capsule-intro">
+    Below is your planned capsule using the <strong>5-4-3-2-1 method</strong> (tops, bottoms, dresses/extras, shoes, signature) with the <strong>Sudoku method</strong> applied — every item pairs with at least 3 others in the suitcase. Palette: <strong>navy + cream/ivory + burgundy accent</strong>. Review the grid, then tick items as you pack.
+  </p>
+  <div class="palette-chips">
+    <span class="chip"><span class="swatch" style="background:#1d2a42"></span> Navy (neutral 1)</span>
+    <span class="chip"><span class="swatch" style="background:#f5ecd9"></span> Cream / ivory (neutral 2)</span>
+    <span class="chip"><span class="swatch" style="background:#6d1f2c"></span> Burgundy (accent)</span>
+    <span class="chip"><span class="swatch" style="background:#1b1b1b"></span> Black (supports accent)</span>
+  </div>
+  <table class="capsule-table">
+    <thead>
+      <tr><th>Item</th><th>Colour</th><th>Pairs with</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Cream fitted tee</td><td>Cream</td><td>Jeans, black trousers, navy skirt, wide-legs, blazer, trench</td></tr>
+      <tr><td>Navy striped long-sleeve tee</td><td>Navy/cream</td><td>Jeans, cream wide-legs, navy skirt, trench</td></tr>
+      <tr><td>Cream silky blouse</td><td>Cream</td><td>Black trousers, jeans, navy skirt, blazer</td></tr>
+      <tr><td>Navy fine-knit jumper</td><td>Navy</td><td>Jeans, cream wide-legs, midi skirt, over blouse or cami</td></tr>
+      <tr><td>Burgundy silk cami</td><td>Burgundy</td><td>Jeans, black trousers, blazer, trench</td></tr>
+      <tr><td>Dark-wash straight jeans</td><td>Indigo</td><td>All 5 tops, sneakers + loafers, blazer, trench</td></tr>
+      <tr><td>Black tailored trousers</td><td>Black</td><td>Cream tee, blouse, cami, blazer, loafers</td></tr>
+      <tr><td>Navy midi skirt</td><td>Navy</td><td>Cream tee, blouse, jumper, sneakers or loafers</td></tr>
+      <tr><td>Cream wide-leg trousers</td><td>Cream</td><td>Navy stripe tee, jumper, cami, blazer, loafers</td></tr>
+      <tr><td>Navy wrap dress (midi)</td><td>Navy</td><td>Sneakers (day), loafers (night), trench, scarf</td></tr>
+      <tr><td>Burgundy slip dress</td><td>Burgundy</td><td>Blazer, loafers, trench over top, heels</td></tr>
+      <tr><td>Black cropped blazer</td><td>Black</td><td>Every top, every bottom, both dresses</td></tr>
+      <tr><td>White leather sneakers</td><td>White</td><td>Everything casual — jeans, skirt, dress, wide-legs</td></tr>
+      <tr><td>Black low-heel loafers</td><td>Black</td><td>Trousers, skirt, both dresses, wide-legs</td></tr>
+      <tr><td>Classic trench coat (signature)</td><td>Camel/stone</td><td>Absolutely everything — this is the MVP</td></tr>
+    </tbody>
+  </table>
+  <div class="sub-note">
+    <strong>Sudoku check passed:</strong> every item above appears in at least 3 outfits. Trench coat = the unifier. If a piece doesn't multi-task, swap it out before packing.
+  </div>
+`;
+
+/* ---------- State ---------- */
+const STORAGE_KEY = "nyc-trip-checklist-v1";
+const NOTES_KEY   = "nyc-trip-checklist-notes-v1";
+
+function safeStorage() {
+  try {
+    const k = "__t"; localStorage.setItem(k, "1"); localStorage.removeItem(k);
+    return localStorage;
+  } catch (e) {
+    // fallback to in-memory
+    const mem = {};
+    return {
+      getItem: (k) => (k in mem ? mem[k] : null),
+      setItem: (k, v) => { mem[k] = String(v); },
+      removeItem: (k) => { delete mem[k]; }
+    };
+  }
+}
+const store = safeStorage();
+
+function loadChecks() {
+  try { return JSON.parse(store.getItem(STORAGE_KEY) || "{}"); } catch(e) { return {}; }
+}
+function saveChecks(c) { store.setItem(STORAGE_KEY, JSON.stringify(c)); }
+
+function loadNotes() {
+  try { return JSON.parse(store.getItem(NOTES_KEY) || "{}"); } catch(e) { return {}; }
+}
+function saveNotes(n) { store.setItem(NOTES_KEY, JSON.stringify(n)); }
+
+let checks = loadChecks();
+let notes  = loadNotes();
+
+/* ---------- Render ---------- */
+function render() {
+  const root = document.getElementById("checklist");
+  root.innerHTML = "";
+
+  DATA.forEach((cat, idx) => {
+    const section = document.createElement("section");
+    section.className = "cat" + (idx === 0 ? " open" : "");
+    section.dataset.catId = cat.id;
+
+    const head = document.createElement("div");
+    head.className = "cat-head";
+    head.innerHTML = `
+      <div class="cat-title">
+        <span class="chev">▶</span>
+        <h3>${cat.title}</h3>
+        <span class="cat-count" id="count-${cat.id}">0 / ${cat.items.length}</span>
+      </div>
+    `;
+    head.addEventListener("click", () => section.classList.toggle("open"));
+    section.appendChild(head);
+
+    const body = document.createElement("div");
+    body.className = "cat-body";
+
+    // mini progress
+    const mp = document.createElement("div");
+    mp.className = "mini-progress";
+    mp.innerHTML = `<div id="mini-${cat.id}"></div>`;
+    body.appendChild(mp);
+
+    // capsule intro table for clothing
+    if (cat.capsule) {
+      const wrap = document.createElement("div");
+      wrap.innerHTML = CAPSULE_TABLE_HTML;
+      body.appendChild(wrap);
+    }
+
+    // optional note
+    if (cat.note) {
+      const n = document.createElement("div");
+      n.className = "sub-note";
+      n.textContent = cat.note;
+      body.appendChild(n);
+    }
+
+    // items
+    cat.items.forEach(item => {
+      const row = document.createElement("div");
+      row.className = "item" + (checks[item.id] ? " checked" : "");
+      const cb = document.createElement("input");
+      cb.type = "checkbox";
+      cb.id = item.id;
+      cb.checked = !!checks[item.id];
+      cb.addEventListener("change", () => {
+        checks[item.id] = cb.checked;
+        saveChecks(checks);
+        row.classList.toggle("checked", cb.checked);
+        updateProgress();
+      });
+      const label = document.createElement("label");
+      label.setAttribute("for", item.id);
+      label.innerHTML = item.sub
+        ? `${escapeHtml(item.text)}<small>${escapeHtml(item.sub)}</small>`
+        : escapeHtml(item.text);
+      row.appendChild(cb);
+      row.appendChild(label);
+      body.appendChild(row);
+    });
+
+    // notes field
+    const notesWrap = document.createElement("div");
+    notesWrap.className = "notes";
+    notesWrap.innerHTML = `
+      <label for="notes-${cat.id}">Notes / reminders for this section</label>
+      <textarea id="notes-${cat.id}" placeholder="Jot anything…"></textarea>
+    `;
+    body.appendChild(notesWrap);
+
+    section.appendChild(body);
+    root.appendChild(section);
+
+    // restore notes value + listener
+    const ta = notesWrap.querySelector("textarea");
+    ta.value = notes[cat.id] || "";
+    ta.addEventListener("input", () => {
+      notes[cat.id] = ta.value;
+      saveNotes(notes);
+    });
+  });
+
+  updateProgress();
+}
+
+function updateProgress() {
+  let totalAll = 0, doneAll = 0;
+  DATA.forEach(cat => {
+    let done = 0;
+    cat.items.forEach(it => { if (checks[it.id]) done++; });
+    const total = cat.items.length;
+    totalAll += total;
+    doneAll += done;
+
+    const countEl = document.getElementById("count-" + cat.id);
+    if (countEl) {
+      countEl.textContent = `${done} / ${total}`;
+      countEl.classList.toggle("done", done === total && total > 0);
+    }
+    const miniEl = document.getElementById("mini-" + cat.id);
+    if (miniEl) miniEl.style.width = total ? (done / total * 100).toFixed(1) + "%" : "0%";
+  });
+
+  const pct = totalAll ? (doneAll / totalAll * 100) : 0;
+  document.getElementById("overallFill").style.width = pct.toFixed(1) + "%";
+  document.getElementById("overallLabel").textContent =
+    `${doneAll} / ${totalAll} · ${pct.toFixed(0)}%`;
+}
+
+function expandAll(open) {
+  document.querySelectorAll("section.cat").forEach(s => s.classList.toggle("open", open));
+}
+
+function resetAll() {
+  if (!confirm("Reset all checkboxes and clear all notes? This cannot be undone.")) return;
+  checks = {}; notes = {};
+  saveChecks(checks); saveNotes(notes);
+  render();
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({
+    "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
+  }[c]));
+}
+
+render();
+</script>
+</body>
+</html>
